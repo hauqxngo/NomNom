@@ -28,11 +28,12 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
-    image_url = db.Column(db.Text, nullable=False, default=DEFAULT_USER_IMG)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+
+    image_url = db.Column(db.Text, default=DEFAULT_USER_IMG)
 
     recipes = db.relationship(
         'Recipe',
@@ -46,7 +47,7 @@ class User(db.Model):
         return f'{self.first_name} {self.last_name}'
 
     @classmethod
-    def register(cls, email, pwd):
+    def register(cls, first_name, last_name, email, pwd):
         """Register user with hashed password & return user."""
 
         hashed = bcrypt.generate_password_hash(pwd)
@@ -54,7 +55,12 @@ class User(db.Model):
         hashed_utf8 = hashed.decode('utf8')
 
         # return instance of user with email & hashed pwd
-        return cls(email=email, password=hashed_utf8)
+        return cls(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=hashed_utf8
+            )
 
     @classmethod
     def authenticate(cls, email, pwd):
@@ -81,7 +87,7 @@ class Recipe(db.Model):
     name = db.Column(db.String(100), nullable=False)
     ingredients = db.Column(db.Text, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
-    image_url = db.Column(db.Text, nullable=False, default=DEFAULT_RECIPE_IMG)
+    image_url = db.Column(db.Text, default=DEFAULT_RECIPE_IMG)
     created_on = db.Column(
         db.DateTime,
         nullable=False,

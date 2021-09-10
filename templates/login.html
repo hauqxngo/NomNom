@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Log In{% endblock %} 
+
+{% block content %} 
+<h1 class="display-1">Log In</h1>
+<!-- <p class="lead">Join for free!</p> -->
+
+<form method='POST'>
+    {% include '_form.html' %}
+    <button class="btn btn-primary" type="submit">Log In</button>
+</form>
+
+<button class="btn btn-success mt-2">Create New Account</button>
+
+{% endblock %}
