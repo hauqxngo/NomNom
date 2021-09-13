@@ -1,11 +1,11 @@
 """Models for Recipe app."""
 
 import datetime
-from re import U
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
+# db.create_all()
 
 bcrypt = Bcrypt()
 
@@ -18,7 +18,6 @@ def connect_db(app):
 
 
 DEFAULT_USER_IMG = 'https://www.freeiconspng.com/uploads/icon-user-blue-symbol-people-person-generic--public-domain--21.png'
-
 DEFAULT_RECIPE_IMG = 'https://www.freeiconspng.com/uploads/recipe-icon-1.png'
 
 
@@ -84,23 +83,37 @@ class Recipe(db.Model):
     __tablename__ = 'recipes'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False)
-    ingredients = db.Column(db.Text, nullable=False)
-    instructions = db.Column(db.Text, nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    ingredients = db.Column(db.Text)
+    directions = db.Column(db.Text)
     image_url = db.Column(db.Text, default=DEFAULT_RECIPE_IMG)
     created_on = db.Column(
         db.DateTime,
         nullable=False,
         default=datetime.datetime.now
     )
-    leftovers = db.Column(db.Boolean)
+    leftovers = db.Column(db.Boolean, default=False)
+    done = db.Column(db.Boolean, default=False)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    @property
-    def friendly_date(self):
-        """Return nicely-formatted date."""
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'ingredients': self.ingredients,
+            'directions': self.directions,
+            'image_url': self.image_url,
+            'created_on': self.created_on,
+            'leftovers': self.leftovers,
+            'done': self.done
+        }
 
-        return self.created_on.strftime('%a %b %d %Y')
+    # @property
+    # def friendly_date(self):
+    #     """Return nicely-formatted date."""
+
+    #     return self.created_on.strftime('%a %b %d %Y')
 
 
 class RecipeCuisine(db.Model):

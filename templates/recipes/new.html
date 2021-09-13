@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Recipe{% endblock %} 
+
+{% block content %} 
+<h1>Add Your New Recipe</h1>
+
+<form method='POST'>
+    {% include '_form.html' %}
+    <button class="btn btn-primary" type="submit">Add</button>
+</form>
+
+{% endblock %}

@@ -5,16 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}NOM NOM{% endblock %}</title>
+    <link rel="icon" type="image/png" href="/static/favicon.ico">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/all.css">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-  <nav class="navbar navbar-light justify-content-between" style="background-color: #e3f2fd;">
+  <nav class="navbar navbar-light justify-content-between" style="background-color: #AEE1E1;">
     <div class="container">
-      <a href="/" class="navbar-brand">Nom Nom</a>
+      <a class="navbar-brand" href="/">
+        <img class="nav-logo" src="/static/images/logo.png" alt="">
+      </a>
       <ul class="nav navbar-nav flex-row float-right">
-        {% if session['user_id'] %}
+        {% if g.user %}
+        <!-- <div class="btn-group">
+          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Action
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+          </div>
+        </div> -->
+        <li class="nav-item">
+          <a class="nav-link pr-3" href="/users/profile">My profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link pr-3" href="/users/{{ g.user.id }}">To-cook list</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link pr-3" href="/logout">Logout</a>
         </li>

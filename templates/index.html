@@ -1,8 +1,25 @@
 {% extends 'base.html' %}
 
-{% block title %}{% endblock %} 
+{% block title %}Nom Nom{% endblock %} 
 
 {% block content %} 
-<h1>What's for dinner?</h1>
+<h1>What to cook next?</h1>
+<!-- <p class="lead">Search recipes by ingredients.</p> -->
+
+<form action="/recipes">
+    <div class="input-group my-4">
+      <div class="form-outline">
+        <input type="text" name="ingredients" id="form1" class="form-control rounded" placeholder="Search new recipes by ingredients." size="40"/>
+      </div>
+      <button class="btn btn-primary">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+</form>
+
+{% if new_recipes %} 
+    <li>Title: {{new_recipes['title']}}</li>
+    <li>Image: {{new_recipes['image']}}</li>
+{% endif %}
 
 {% endblock %}
