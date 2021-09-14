@@ -85,7 +85,7 @@ class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
     ingredients = db.Column(db.Text)
-    directions = db.Column(db.Text)
+    instructions = db.Column(db.Text)
     image_url = db.Column(db.Text, default=DEFAULT_RECIPE_IMG)
     created_on = db.Column(
         db.DateTime,
@@ -102,7 +102,7 @@ class Recipe(db.Model):
             'id': self.id,
             'title': self.title,
             'ingredients': self.ingredients,
-            'directions': self.directions,
+            'instructions': self.instructions,
             'image_url': self.image_url,
             'created_on': self.created_on,
             'leftovers': self.leftovers,

@@ -55,6 +55,8 @@ def do_logout():
 def register_user():
     """Show register form and handle user registration."""
 
+    if CURR_USER_KEY in session:
+        del session[CURR_USER_KEY]
     form = RegisterForm()
 
     if form.validate_on_submit():
@@ -70,13 +72,14 @@ def register_user():
             db.session.commit()
         except IntegrityError:
             form.email.errors.append('Account with this email already exists. Please try again.')
-            return render_template('register.html', form=form)
-        session['user_id'] = new_user.id
-        
-        flash(f'Welcome, {new_user.first_name}!', 'primary')
-        return redirect('/recipes')
+            return render_template('users/register.html', form=form)
 
-    return render_template('register.html', form=form)
+        do_login(new_user)
+
+        flash(f'Welcome, {new_user.first_name}!', 'primary')
+        return redirect(f'/recipes/{new_user.id}')
+
+    return render_template('users/register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -96,12 +99,12 @@ def login_user():
             do_login(user)
             flash(f'Welcome back, {user.full_name}!', 'primary')
             # session['user_id'] = user.id  # keep logged in
-            return redirect(f'users/{user.id}')
+            return redirect(f'/users/{user.id}')
 
         else:
             form.email.errors = ["Incorrect email or password. Please try again."]
 
-    return render_template('login.html', form=form)
+    return render_template('users/login.html', form=form)
 
 
 @app.route('/logout')
@@ -130,36 +133,42 @@ def show_search_form():
 def search_recipes():
     """Search recipes by ingredients."""
 
-    ingredients = request.args['ingredients']
-    res = requests.get(f'{API_BASE_URL}/recipes/findByIngredients?apiKey={API_SECRET_KEY}&ingredients={ingredients}')
+    tags = request.args['tags']
+    # res = requests.get(f'{API_BASE_URL}/recipes/findByIngredients?apiKey={API_SECRET_KEY}&ingredients={ingredients}')
+
+    res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_SECRET_KEY}&tags={tags}&number=1')
+
 
     data = res.json()
-    
-    title = data[1]['title']
-    image = data[0]['image']
+    entry = data['recipes'][0]
 
-    new_recipes = {'title': title,'image': image}
+    title = entry['title']
+    image = entry['image']
+    readyInMinutes = entry['readyInMinutes']
+    servings = entry['servings']
+    sourceUrl = entry['sourceUrl']
+
+    new_recipes = {
+        'title': title,
+        'image': image, 
+        'readyInMinutes': readyInMinutes,
+        'servings': servings,
+        'sourceUrl': sourceUrl
+        }
     return render_template('index.html', new_recipes=new_recipes)
 
 
 @app.route('/users/<int:user_id>')
-def show_users_recipes(user_id):
-    """Show user's recipes when logged in."""
-
-    # if 'user_id' not in session:
-    #     flash('Please log in first!', 'danger')
-    #     return redirect('/')
+def show_user(user_id):
+    """Show user's info."""
 
     if not g.user:
         flash("Please log in first.", "danger")
         return redirect("/")
 
     user = User.query.get_or_404(user_id)
-    recipes = (Recipe
-              .query
-              .filter(Recipe.user_id == user_id)
-              .all())
-    return render_template('users/show.html', user=user, recipes=recipes)
+
+    return render_template('users/show.html', user=user)
 
 
 @app.route('/users/profile', methods=["GET", "POST"])
@@ -192,7 +201,7 @@ def delete_user():
     """Delete user."""
 
     if not g.user:
-        flash("Please log in first.", "danger")
+        flash('Please log in first.', 'danger')
         return redirect("/")
 
     do_logout()
@@ -200,6 +209,7 @@ def delete_user():
     db.session.delete(g.user)
     db.session.commit()
 
+    flash('Account deleted.', 'danger')
     return redirect("/")
 
 
@@ -220,14 +230,14 @@ def add_recipe():
     # if form.validate_on_submit():
     title = form.title.data
     ingredients = form.ingredients.data
-    directions = form.directions.data
+    instructions = form.instructions.data
     image_url = form.image_url.data
     leftovers = form.leftovers.data
 
     new_recipe = Recipe(
         title=title,
         ingredients=ingredients,
-        directions=directions,
+        instructions=instructions,
         image_url=image_url,
         leftovers=leftovers,
         user_id=g.user.id
@@ -238,9 +248,25 @@ def add_recipe():
         db.session.commit()
 
         flash('New recipe added.', 'success')
-        return redirect(f'/users/{g.user.id}')
+        return redirect(f'/recipes/{g.user.id}')
 
     return render_template('recipes/new.html', form=form, new_recipe=new_recipe)
+
+
+@app.route('/recipes/<int:user_id>')
+def list_recipes(user_id):
+    """Show user's recipes when logged in."""
+
+    if not g.user:
+        flash("Please log in first.", "danger")
+        return redirect("/")
+
+    user = User.query.get_or_404(user_id)
+    recipes = (Recipe
+              .query
+              .filter(Recipe.user_id == user_id)
+              .all())
+    return render_template('recipes/list.html', user=user, recipes=recipes)
 
 
 @app.route('/recipes/<int:recipe_id>')
@@ -251,14 +277,8 @@ def show_recipe(recipe_id):
     return render_template('recipes/show.html', recipe=recipe)
 
 
-@app.route('/api/recipes')
-def list_recipes():
-    all_recipes = [recipe.to_dict() for recipe in Recipe.query.all()]
-    return jsonify(recipes=all_recipes)
-
-
-@app.route('/api/recipes/<int:id>')
-def get_recipe(id):
-    recipe = Recipe.query.get_or_404(id)
-    return jsonify(recipe=recipe.to_dict())
+# @app.route('/api/recipes')
+# def list_recipes():
+#     all_recipes = [recipe.to_dict() for recipe in Recipe.query.all()]
+#     return jsonify(recipes=all_recipes)
 

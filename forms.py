@@ -19,7 +19,7 @@ class RecipeForm(FlaskForm):
     title = StringField('Title', validators=[InputRequired()])
     source = StringField('Source URL', validators=[Optional()])
     ingredients = TextAreaField('Ingredients', validators=[Optional()])
-    directions = TextAreaField('Directions', validators=[Optional()])
+    instructions = TextAreaField('Intructions', validators=[Optional()])
     image_url = StringField('Image URL', validators=[Optional()])
     leftovers = BooleanField('Leftovers?', validators=[Optional()])
 

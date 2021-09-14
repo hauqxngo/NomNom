@@ -32,10 +32,10 @@
           </div>
         </div> -->
         <li class="nav-item">
-          <a class="nav-link pr-3" href="/users/profile">My profile</a>
+          <a class="nav-link pr-3" href="/users/{{ g.user.id }}">My profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link pr-3" href="/users/{{ g.user.id }}">To-cook list</a>
+          <a class="nav-link pr-3" href="/recipes/{{ g.user.id }}">My list</a>
         </li>
         <li class="nav-item">
           <a class="nav-link pr-3" href="/logout">Logout</a>
@@ -63,6 +63,6 @@
 
   <script src="https://unpkg.com/jquery"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
-  <script src="/static/cupcakes.js"></script>  
+  <script src="/static/app.js"></script>  
 </body>
 </html>

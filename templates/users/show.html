@@ -1,33 +1,33 @@
 {% extends 'base.html' %}
 
-{% block title %}Your Recipes{% endblock %} 
+{% block title %}{{ user.full_name }}{% endblock %} 
 
 {% block content %} 
-<h1>Your To-cook List</h1>
-<p class="lead">Start planning your next meals by adding new recipes to your list.</p>
+<h1>Account Setting</h1>
 
-{% for recipe in recipes %}
-<ul class="list-group">
-  <li class="list-group-item">
-    <a href="/recipes/{{ recipe.id }}">{{ recipe.title }}</a>
-    <span class="text-muted ml-2 text-sm"><small><i>Added on {{ recipe.created_on.strftime('%B %d, %Y') }}</i></small></span>
-  </li>
-</ul>
-{% endfor %}
+<div class="row">
 
-<form action="/recipes">
-  <div class="input-group my-4">
-    <div class="form-outline">
-      <input type="text" name="ingredients" id="form1" class="form-control rounded" placeholder="Search new recipes by ingredients." size="40"/>
+    {% if user.image_url %}
+    <div class="col-sm-2 col-6">
+      <img src="{{ user.image_url }}"
+           alt="{{ user.full_name }}"
+           class="img-fluid">
     </div>
-    <button class="btn btn-primary">
-      <i class="fas fa-search"></i>
-    </button>
-  </div>
-</form>
+    {% endif %}
+  
+    <div class="col-sm-6 col-12">
+      <h1>{{ user.full_name }}</h1>
+  
+      <form action="/users/profile" method="GET">
+        <button class="btn btn-primary btn-sm">Edit</button>
+      </form>
 
-<p>OR</p>
-
-<a href="/recipes/new" class="btn btn-success">Add New Recipe</a>
+      <form id="deleteForm" action="/users/{{ user.id }}" method="GET">
+        <button onclick="confirmDelete()" class="btn btn-danger btn-sm mt-2">Delete
+        </button>
+      </form>
+  
+    </div>
+</div>
 
 {% endblock %}
