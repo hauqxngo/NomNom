@@ -9,7 +9,7 @@
 <form action="/recipes">
     <div class="input-group my-4">
       <div class="form-outline">
-        <input type="text" name="tags" id="form1" class="form-control rounded" placeholder="Examples: vegetarian, dessert, etc." size="70"/>
+        <input type="text" name="tags" id="form1" class="form-control rounded" placeholder="Examples: vegetarian, dessert, etc." size="40"/>
       </div>
       <button class="btn btn-primary">
         <i class="fas fa-search"></i>
@@ -18,17 +18,16 @@
 </form>
 
 {% if new_recipes %}
-
-<div class="card" style="width: 18rem;">
+<div class="card" style="width: 40rem;">
   <img class="card-img-top" src="{{ new_recipes['image'] }}" alt="{{ new_recipes['title'] }} picture">
   <div class="card-body">
     <a href="{{ new_recipes['sourceUrl'] }}" target="_blank"><h5 class="card-title">{{ new_recipes['title'] }}</h5></a>
     <li class="card-text">Ready in: {{ new_recipes['readyInMinutes'] }} minutes</li>
     <li class="card-text">Servings: {{ new_recipes['servings'] }}</li>
-    <a href="#" class="btn btn-primary mt-2">Add to list</a>
+    <br>
+    <i><p><a href="/register">Sign up</a> to add a recipe to your list. Already have an account? Log in <a href="/login">here.</a></p></i>
   </div>
 </div>
-    
 {% endif %}
 
 {% endblock %}

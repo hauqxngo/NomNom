@@ -1,10 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ recipe.title }}{% endblock %} 
+{% block title %}{{ recipe.title }} Recipe{% endblock %} 
 
 {% block content %} 
 <h1>{{ recipe.title }}</h1>
+{% if recipe.source_url %}
+ <span><a href="{{ recipe.source_url }}" target="_blank">Go to recipe</a></span>
+{% endif %}
 
+<div class="card mb-3">
+    <img id="recipe-img" width="100px" class="card-img-top" src="{{ recipe.image_url }}" alt="{{ recipe.title }} picture">
+    <div class="card-body">
+      <h5 class="card-title">{{ recipe.title }}</h5>
 
+      {% if recipe.ingredients %}
+        <h6>Ingredients:</h6>
+        <p class="card-text">{{ recipe.ingredients }}</p>
+      {% endif %}
+
+      {% if recipe.instructions %}
+        <h6>Instructions:</h6>
+        <p class="card-text">{{ recipe.instructions }}</p>
+      {% endif %}
+      
+      <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+      <a href="/recipes/{{ recipe.id }}/edit" class="btn btn-success">Edit</a>
+      <a href="/recipes/{{ recipe.id }}/delete" class="btn btn-outline-danger" method="POST">Delete</a>
+    </div>
+  </div>
 
 {% endblock %}

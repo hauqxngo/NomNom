@@ -2,3 +2,79 @@
     height: 4rem;
     width: 4rem;
 }
+
+.navbar, .footer {
+    background-color: #AEE1E1;
+}
+
+#recipe-list {
+  overflow: auto;
+}
+
+/* Sticky footer */
+.footer {
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 10px;
+    color: white;
+}
+
+body {
+  min-height: 400px;
+  margin-bottom: 100px;
+  clear: both;
+}
+
+/* Icon dropdowns to edit/delete a recipe in user's list */
+.dropbtn {
+    background-color: #AEE1E1;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .dropdown {
+    position: absolute;
+    display: inline-block;
+    text-align: center;
+    right: 2rem;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 50px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 5px 5px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+      background-color: #ddd;
+      border-radius: 5px;
+    }
+  
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  .dropdown:hover .dropbtn {background-color: #87cfcf;}
+
+  /* 404 image */
+  #err-img {
+    border-radius: 10px;
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }

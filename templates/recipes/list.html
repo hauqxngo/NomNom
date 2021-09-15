@@ -3,31 +3,32 @@
 {% block title %}My Recipes{% endblock %} 
 
 {% block content %} 
+
 <h1>To-cook List</h1>
 <p class="lead">Start planning your next meals by adding new recipes to your list.</p>
 
-{% for recipe in recipes %}
-<ul class="list-group" id="recipe-list">
-  <li class="list-group-item">
-    <a href="/recipes/{{ recipe.id }}">{{ recipe.title }}</a>
-    <span class="text-muted ml-2 text-sm"><small><i>Added on {{ recipe.created_on.strftime('%B %d, %Y') }}</i></small></span>
-  </li>
-</ul>
-{% endfor %}
+<a href="/users/{{ g.user.id }}/recipes/random" class="btn btn-primary mb-4">Add A Random Recipe</a>
+<a href="/recipes/new" class="btn btn-success mb-4">Add New Recipe</a>
 
-<form action="/recipes">
-  <div class="input-group my-4">
-    <div class="form-outline">
-      <input type="text" name="tags" id="form1" class="form-control rounded" placeholder="Get a random recipe." size="40"/>
-    </div>
-    <button class="btn btn-primary">
-      <i class="fas fa-search"></i>
-    </button>
-  </div>
-</form>
+<div id="recipe-list">
+  {% for recipe in recipes %}
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <a href="/recipes/{{ recipe.id }}">{{ recipe.title }}</a>
+        <!-- <span class="text-muted ml-2 text-sm"><small><i>Added on {{ recipe.created_on.strftime('%B %d, %Y') }}</i></small></span> -->
 
-<p>OR</p>
-
-<a href="/recipes/new" class="btn btn-success">Add New Recipe</a>
-
+        <!-- Single icon dropdowns -->
+        <div class="dropdown">
+          <button class="dropbtn">
+            <i class="fas fa-ellipsis-h"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="/recipes/{{ recipe.id }}/edit">Edit</a>
+            <a href="/recipes/{{ recipe.id }}/delete" method="POST">Delete</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  {% endfor %}
+</div>
 {% endblock %}

@@ -5,8 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
 db = SQLAlchemy()
-# db.create_all()
-
 bcrypt = Bcrypt()
 
 
@@ -18,7 +16,7 @@ def connect_db(app):
 
 
 DEFAULT_USER_IMG = 'https://www.freeiconspng.com/uploads/icon-user-blue-symbol-people-person-generic--public-domain--21.png'
-DEFAULT_RECIPE_IMG = 'https://www.freeiconspng.com/uploads/recipe-icon-1.png'
+DEFAULT_RECIPE_IMG = 'https://www.freeiconspng.com/uploads/free-recipe-sheet-clip-art-21.png'
 
 
 class User(db.Model):
@@ -84,6 +82,7 @@ class Recipe(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
+    source_url = db.Column(db.Text)
     ingredients = db.Column(db.Text)
     instructions = db.Column(db.Text)
     image_url = db.Column(db.Text, default=DEFAULT_RECIPE_IMG)
@@ -97,51 +96,20 @@ class Recipe(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'title': self.title,
-            'ingredients': self.ingredients,
-            'instructions': self.instructions,
-            'image_url': self.image_url,
-            'created_on': self.created_on,
-            'leftovers': self.leftovers,
-            'done': self.done
-        }
+    # def to_dict(self):
+    #     return {
+    #         'id': self.id,
+    #         'title': self.title,
+    #         'ingredients': self.ingredients,
+    #         'instructions': self.instructions,
+    #         'image_url': self.image_url,
+    #         'created_on': self.created_on,
+    #         'leftovers': self.leftovers,
+    #         'done': self.done
+    #     }
 
     # @property
     # def friendly_date(self):
     #     """Return nicely-formatted date."""
 
     #     return self.created_on.strftime('%a %b %d %Y')
-
-
-class RecipeCuisine(db.Model):
-    """Cuisine of a recipe."""
-
-    __tablename__ = 'recipes_cuisines'
-
-    recipe_id = db.Column(
-        db.Integer,
-        db.ForeignKey('recipes.id'),
-        primary_key=True)
-    cuisine_id = db.Column(
-        db.Integer,
-        db.ForeignKey('cuisines.id'),
-        primary_key=True)
-
-
-class Cuisine(db.Model):
-    """Cuisines that can be added to recipes."""
-
-    __tablename__ = 'cuisines'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.Text, nullable=False, unique=True)
-
-    recipes = db.relationship(
-        'Recipe',
-        secondary='recipes_cuisines',
-        # cascade='all,delete',
-        backref='cuisines'
-    )

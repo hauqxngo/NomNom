@@ -5,8 +5,7 @@
 {% block content %} 
 <h1>Account Setting</h1>
 
-<div class="row">
-
+<div class="row mt-4">
     {% if user.image_url %}
     <div class="col-sm-2 col-6">
       <img src="{{ user.image_url }}"
@@ -16,18 +15,19 @@
     {% endif %}
   
     <div class="col-sm-6 col-12">
-      <h1>{{ user.full_name }}</h1>
+      <h2>{{ user.full_name }}</h1>
+      <p class="lead">Email Address: {{ user.email }}</p>
   
       <form action="/users/profile" method="GET">
-        <button class="btn btn-primary btn-sm">Edit</button>
+        <button class="btn btn-primary btn-sm">Edit Profile</button>
       </form>
 
       <form id="deleteForm" action="/users/{{ user.id }}" method="GET">
-        <button onclick="confirmDelete()" class="btn btn-danger btn-sm mt-2">Delete
+        <button onclick="confirmDelete()" class="btn btn-outline-danger btn-sm mt-2">Delete Account
         </button>
       </form>
-  
     </div>
+    
 </div>
 
 {% endblock %}

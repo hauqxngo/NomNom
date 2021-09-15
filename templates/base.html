@@ -12,30 +12,22 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-light justify-content-between" style="background-color: #AEE1E1;">
+  <nav class="navbar navbar-light justify-content-between">
     <div class="container">
       <a class="navbar-brand" href="/">
         <img class="nav-logo" src="/static/images/logo.png" alt="">
+        NOM NOM
       </a>
       <ul class="nav navbar-nav flex-row float-right">
-        {% if g.user %}
-        <!-- <div class="btn-group">
-          <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Action
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-        </div> -->
         <li class="nav-item">
-          <a class="nav-link pr-3" href="/users/{{ g.user.id }}">My profile</a>
+          <a class="nav-link pr-3" href="/about">About</a>
+        </li>
+        {% if g.user %}
+        <li class="nav-item">
+          <a class="nav-link pr-3" href="/users/{{ g.user.id }}/recipes">To-cook list</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link pr-3" href="/recipes/{{ g.user.id }}">My list</a>
+          <a class="nav-link pr-3" href="/users/{{ g.user.id }}">Setting</a>
         </li>
         <li class="nav-item">
           <a class="nav-link pr-3" href="/logout">Logout</a>
@@ -60,6 +52,10 @@
       {% block content %}
       {% endblock %}
     </div>
+
+  <footer class="footer">
+    <p class="footer__copyright">&#169; 2021 Created by <a href="https://hauqxngo.com/">Hau Ngo</a></p>
+  </footer>
 
   <script src="https://unpkg.com/jquery"></script>
   <script src="https://unpkg.com/axios/dist/axios.js"></script>
