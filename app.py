@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, flash, session, g, url_for
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_wtf import form
-from models import db, connect_db, User, Recipe
+from itsdangerous import URLSafeTimedSerializer
+from flask_mail import Mail, Message
+from threading import Thread
+from models import db, connect_db, User, Recipe, datetime
 from forms import RegisterForm, LoginForm, RecipeForm, EditRecipeForm
 from sqlalchemy.exc import IntegrityError
 import requests
@@ -11,6 +13,7 @@ API_BASE_URL = 'https://api.spoonacular.com'
 CURR_USER_KEY = 'curr_user'
 
 app = Flask(__name__)
+mail = Mail(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///nomnom'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -23,6 +26,35 @@ toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 db.create_all()
+
+# HELPERS
+
+
+def send_async_email(msg):
+    with app.app_context():
+        mail.send(msg)
+
+
+def send_email(subject, recipients, html_body):
+    msg = Message(subject, recipients=recipients)
+    msg.html = html_body
+    thr = Thread(target=send_async_email, args=[msg])
+    thr.start()
+
+def send_confirmation_email(user_email):
+    """Send email to confirm user's email address."""
+
+    confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+    confirm_url = url_for(
+        '.confirm_email',
+        token=confirm_serializer.dumps(user_email, salt='email-confirmation-salt'),
+        _external=True
+    )
+
+    html = render_template('email_confirmation.html', confirm_url=confirm_url)
+
+    send_email('Confirm Your Email Address', [user_email], html)
 
 
 ###############################################################
@@ -52,6 +84,32 @@ def do_logout():
         del session[CURR_USER_KEY]
 
 
+@app.route('/confirm/<token>')
+def confirm_email(token):
+    """Processing unique token."""
+
+    try:
+        confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        email = confirm_serializer.loads(token, salt='email-confirmation-salt', max_age=3600)
+
+    except:
+        flash('The confirmation link is invalid or has expired', 'error')
+        return redirect('/login')
+
+    user = User.query.filter_by(email=email).first()
+
+    if user.email_confirmed:
+        flash('Account already confirmed. Please login.', 'info')
+    else:
+        user.email_confirmed = True
+        user.email_confirmed_on = datetime.now()
+        db.session.add(user)
+        db.session.commit()
+        flash('Thanks for confirming your email address!', 'success')
+
+    return redirect(f'/users/{user.id}/recipes')
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
     """Show register form and handle user registration."""
@@ -71,14 +129,19 @@ def register_user():
         db.session.add(new_user)
         try:
             db.session.commit()
+            send_confirmation_email(new_user.email)
+            flash('Please check your email to confirm your email address.', 'success')
+            return redirect('/login')
+
         except IntegrityError:
+            db.session.rollback()
             form.email.errors.append('Account with this email already exists. Please try again.')
             return render_template('users/register.html', form=form)
 
-        do_login(new_user)
+        # do_login(new_user)
 
-        flash(f'Welcome, {new_user.first_name}!', 'primary')
-        return redirect(f'/users/{new_user.id}/recipes')
+        # flash(f'Welcome, {new_user.first_name}!', 'primary')
+        # return redirect(f'/users/{new_user.id}/recipes')
 
     return render_template('users/register.html', form=form)
 
@@ -99,7 +162,6 @@ def login_user():
         if user:
             do_login(user)
             flash(f'Welcome back, {user.full_name}!', 'primary')
-            # session['user_id'] = user.id  # keep logged in
             return redirect(f'/users/{user.id}')
 
         else:
@@ -111,8 +173,6 @@ def login_user():
 @app.route('/logout')
 def logout():
     """Logs user out and redirect to homepage."""
-
-    # session.pop('user_id')
 
     do_logout()
     flash('You have successfully logged out.', 'secondary')

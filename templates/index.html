@@ -24,8 +24,10 @@
     <a href="{{ new_recipes['sourceUrl'] }}" target="_blank"><h5 class="card-title">{{ new_recipes['title'] }}</h5></a>
     <li class="card-text">Ready in: {{ new_recipes['readyInMinutes'] }} minutes</li>
     <li class="card-text">Servings: {{ new_recipes['servings'] }}</li>
-    <br>
-    <i><p><a href="/register">Sign up</a> to add a recipe to your list. Already have an account? Log in <a href="/login">here.</a></p></i>
+    <a href="{{ new_recipes['sourceUrl'] }}" target="_blank" class="btn btn-primary">Go to recipe</a>
+    {% if not g.user %}
+    <p class="register-msg"><i><a href="/register">Sign up</a> to add a recipe to your list. Already have an account? Log in <a href="/login">here.</a></i></p>
+    {% endif %}
   </div>
 </div>
 {% endif %}
