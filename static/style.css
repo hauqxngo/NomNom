@@ -11,6 +11,10 @@
   overflow: auto;
 }
 
+.register-msg {
+  margin-top: 1rem;
+}
+
 /* h1 {
   text-align: center;
 } */
@@ -87,6 +91,6 @@ body {
   color: #87cfcf;
 } */
 
-.register-msg {
-  margin-top: 1rem;
-}
+
+
+
