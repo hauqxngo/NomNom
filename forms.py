@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, TextAreaField
-from wtforms.validators import InputRequired, Length, Optional, URL
+from wtforms.fields.html5 import EmailField, URLField
+from wtforms.validators import InputRequired, Length, Optional, URL, Email
 
+DEFAULT_USER_IMG = 'https://www.freeiconspng.com/uploads/icon-user-blue-symbol-people-person-generic--public-domain--21.png'
 DEFAULT_RECIPE_IMG = 'https://www.freeiconspng.com/uploads/free-recipe-sheet-clip-art-21.png'
 
 class RegisterForm(FlaskForm):
@@ -9,36 +11,37 @@ class RegisterForm(FlaskForm):
 
     first_name = StringField('First Name', validators=[InputRequired()])
     last_name = StringField('Last Name', validators=[InputRequired()])
-    email = StringField('Email', validators=[InputRequired()])
+    email = EmailField('Email', validators=[InputRequired(), Email()])
     password = PasswordField('New Password', validators=[InputRequired(), Length(min=6)])
+    image_url = URLField('Profile Picture URL', validators=[Optional(), URL()], default=DEFAULT_USER_IMG)
 
 
 class LoginForm(FlaskForm):
     """Form for user login"""
 
-    email = StringField('Email', validators=[InputRequired()])
-    password = PasswordField('Password', validators=[InputRequired()])
+    email = EmailField('Email', validators=[InputRequired(), Email()])
+    password = PasswordField('Password', validators=[InputRequired(), Length(min=6)])
     
 
 class RecipeForm(FlaskForm):
     """Form for adding a recipe"""
 
     title = StringField('Title', validators=[InputRequired()])
-    source_url = StringField('Source URL', validators=[Optional(), URL()])
+    source_url = URLField('Source URL', validators=[Optional(), URL()])
     ingredients = TextAreaField('Ingredients', validators=[Optional()])
     instructions = TextAreaField('Intructions', validators=[Optional()])
-    image_url = StringField('Image URL', validators=[Optional()], default=DEFAULT_RECIPE_IMG)
+    image_url = URLField('Image URL', validators=[Optional(), URL()], default=DEFAULT_RECIPE_IMG)
 
 
 class EditRecipeForm(FlaskForm):
     """Form for editing an existing recipe"""
 
-    title = StringField('Title:', validators=[InputRequired()])
-    source_url = StringField('Source URL:', validators=[Optional(), URL()])
-    ingredients = TextAreaField('Ingredients:', validators=[Optional()])
-    instructions = TextAreaField('Intructions:', validators=[Optional()])
-    image_url = StringField('Image URL:', validators=[Optional(), URL()])
-    leftovers = BooleanField('Leftovers?')
+    title = StringField('Title', validators=[InputRequired()])
+    source_url = URLField('Source URL', validators=[Optional(), URL()])
+    ingredients = TextAreaField('Ingredients', validators=[Optional()])
+    instructions = TextAreaField('Intructions', validators=[Optional()])
+    image_url = URLField('Image URL', validators=[Optional(), URL()])
+    # leftovers = BooleanField('Leftovers?')
 
 
 

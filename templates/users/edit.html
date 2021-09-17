@@ -10,10 +10,13 @@
             {{ form.hidden_tag() }}
 
             {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
-            {% for error in field.errors %}
-                <span class="text-danger">{{ error }}</span>
-            {% endfor %}
-            {{ field(placeholder=field.label.text, class="form-control") }}
+            <br>
+                {{ field.label }}
+                {{ field(placeholder=field.label.text, class="form-control") }}
+
+                {% for error in field.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
             {% endfor %}
             <br>
 
@@ -21,8 +24,8 @@
             {% if form.password.errors %}
                 {% for error in form.password.errors %}
                     <span class="text-danger">
-                    {{ error }}
-                </span>
+                        {{ error }}
+                    </span>
                 {% endfor %}
             {% endif %}
             {{ form.password(placeholder="Enter your password to confirm.", class="form-control") }}

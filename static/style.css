@@ -11,6 +11,10 @@
   overflow: auto;
 }
 
+/* h1 {
+  text-align: center;
+} */
+
 /* Sticky footer */
 .footer {
     text-align: center;

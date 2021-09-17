@@ -4,6 +4,7 @@ import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
+
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
@@ -29,8 +30,10 @@ class User(db.Model):
     last_name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-
     image_url = db.Column(db.Text, default=DEFAULT_USER_IMG)
+    # email_confirmation_sent_on = db.Column(db.DateTime)
+    # email_confirmed = db.Column(db.Boolean,default=False)
+    # email_confirmed_on = db.Column(db.DateTime)
 
     recipes = db.relationship(
         'Recipe',
@@ -44,7 +47,7 @@ class User(db.Model):
         return f'{self.first_name} {self.last_name}'
 
     @classmethod
-    def register(cls, first_name, last_name, email, pwd):
+    def register(cls, first_name, last_name, email, pwd, image_url):
         """Register user with hashed password & return user."""
 
         hashed = bcrypt.generate_password_hash(pwd)
@@ -56,7 +59,8 @@ class User(db.Model):
             first_name=first_name,
             last_name=last_name,
             email=email,
-            password=hashed_utf8
+            password=hashed_utf8,
+            image_url=image_url
             )
 
     @classmethod
