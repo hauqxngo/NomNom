@@ -347,7 +347,8 @@ def add_random_recipe(user_id):
         flash('Please log in first.', 'danger')
         return redirect('/')
 
-    res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_SECRET_KEY}&number=1')
+    tags = request.args['tags']
+    res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_SECRET_KEY}&number=1&tags={tags}')
 
     data = res.json()
     entry = data['recipes'][0]
