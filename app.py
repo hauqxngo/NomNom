@@ -7,11 +7,12 @@ from flask_migrate import Migrate
 from models import db, connect_db, User, Recipe
 from forms import RegisterForm, LoginForm, RecipeForm, EditRecipeForm
 from sqlalchemy.exc import IntegrityError
-import requests
-from key import API_SECRET_KEY
+import requests, os
+# from key import API_SECRET_KEY
 
 API_BASE_URL = 'https://api.spoonacular.com'
 CURR_USER_KEY = 'curr_user'
+API_KEY = os.getenv("API_KEY", "optional-default")
 
 app = Flask(__name__)
 # mail = Mail(app)
@@ -260,7 +261,7 @@ def search_recipes():
     try:
         tags = request.args['tags']
 
-        res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_SECRET_KEY}&tags={tags}&number=1')
+        res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_KEY}&tags={tags}&number=1')
 
 
         data = res.json()
@@ -348,7 +349,7 @@ def add_random_recipe(user_id):
         return redirect('/')
 
     tags = request.args['tags']
-    res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_SECRET_KEY}&number=1&tags={tags}')
+    res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_KEY}&number=1&tags={tags}')
 
     data = res.json()
     entry = data['recipes'][0]
