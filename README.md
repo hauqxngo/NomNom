@@ -1,6 +1,6 @@
 # NOM NOM
 
-## Table of content
+## Table of contents
 - [About](#about)
 - [Features](#features)
   - [Navigation bar](#navigation-bar)
