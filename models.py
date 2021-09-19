@@ -101,20 +101,8 @@ class Recipe(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    # def to_dict(self):
-    #     return {
-    #         'id': self.id,
-    #         'title': self.title,
-    #         'ingredients': self.ingredients,
-    #         'instructions': self.instructions,
-    #         'image_url': self.image_url,
-    #         'created_on': self.created_on,
-    #         'leftovers': self.leftovers,
-    #         'done': self.done
-    #     }
-
     # @property
     # def friendly_date(self):
     #     """Return nicely-formatted date."""
 
-    #     return self.created_on.strftime('%a %b %d %Y')
+    #     return self.created_on.strftime('%Y, %m, %d')
