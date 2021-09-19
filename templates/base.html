@@ -26,12 +26,15 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/about">About</a>
           </li>
           {% if g.user %}
           <li class="nav-item">
             <a class="nav-link" href="/users/{{ g.user.id }}/recipes">
-              <i class="fas fa-list-ul"></i> To-cook list
+              <i class="fas fa-list-ul"></i> To-cook List
             </a>
           </li>
           <li class="nav-item">
