@@ -1,18 +1,20 @@
 from flask import Flask, render_template, request, redirect, flash, session, g, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate
+import datetime
+from datetime import date
 # from itsdangerous import URLSafeTimedSerializer
 # from flask_mail import Mail, Message
 # from threading import Thread
 from models import db, connect_db, User, Recipe
-from forms import RegisterForm, LoginForm, RecipeForm, EditRecipeForm
+from forms import RegisterForm, LoginForm, RecipeForm, LeftoverForm
 from sqlalchemy.exc import IntegrityError
 import requests, os
-# from key import API_SECRET_KEY
+from key import API_KEY
 
 API_BASE_URL = 'https://api.spoonacular.com'
 CURR_USER_KEY = 'curr_user'
-API_KEY = os.getenv("API_KEY", "optional-default")
+# API_KEY = os.getenv("API_KEY", "optional-default")
 
 app = Flask(__name__)
 # mail = Mail(app)
@@ -300,7 +302,6 @@ def add_recipe():
     ingredients = form.ingredients.data
     instructions = form.instructions.data
     image_url = form.image_url.data
-    # leftovers = form.leftovers.data
 
     new_recipe = Recipe(
         title=title,
@@ -308,7 +309,6 @@ def add_recipe():
         ingredients=ingredients,
         instructions=instructions,
         image_url=image_url,
-        # leftovers=leftovers,
         user_id=g.user.id
         )
 
@@ -384,6 +384,53 @@ def show_recipe(recipe_id):
     return render_template('recipes/show.html', recipe=recipe)
 
 
+@app.route('/recipes/<int:recipe_id>/done')
+def cooked_recipe(recipe_id):
+    """Mark as done after making a recipe."""
+
+    if not g.user:
+        flash('Please log in first.', 'danger')
+        return redirect('/')
+
+    
+    recipe = Recipe.query.filter_by(id=recipe_id).first()
+    recipe.done = not recipe.done
+    db.session.commit()
+
+    return redirect(f'/users/{g.user.id}/recipes')
+    # return redirect(f'/recipes/{recipe.id}/leftovers')
+
+
+# @app.route('/recipes/<int:recipe_id>/leftovers', methods=['GET', 'POST'])
+# def leftovers(recipe_id):
+#     """Show a form asking if the recipe has leftovers. 
+    
+#     If yes, show the cooked date; else, strike through.
+#     """
+
+#     if not g.user:
+#         flash('Please log in first.', 'danger')
+#         return redirect('/')
+
+#     form = LeftoverForm()
+
+#     leftovers = form.leftovers.data
+#     done_on = form.done_on.data
+
+#     # friendly_date = done_on.strftime('%Y, %m, %d')
+
+#     recipe = Recipe.query.filter_by(id=recipe_id, done=True).first()
+#     if form.validate_on_submit():
+#         recipe.leftovers = not recipe.leftovers
+#         # db.session.add(done_on)
+#         # g.user.recipes.append(done_on)
+#         db.session.commit()
+
+#         return redirect(f'/users/{g.user.id}/recipes')
+
+#     return render_template('recipes/leftovers.html', form=form, done_on=done_on, recipe=recipe)
+
+
 @app.route('/recipes/<int:recipe_id>/edit', methods=['GET', 'POST'])
 def edit_recipe(recipe_id):
     """Show a form to edit an existing recipe."""
@@ -393,7 +440,7 @@ def edit_recipe(recipe_id):
         return redirect('/')
 
     recipe = Recipe.query.get_or_404(recipe_id)
-    form = EditRecipeForm(obj=recipe)
+    form = RecipeForm(obj=recipe)
 
     if form.validate_on_submit():
         recipe.title = form.title.data
@@ -421,7 +468,26 @@ def delete_recipe(recipe_id):
     db.session.delete(recipe)
     db.session.commit()
 
+    flash(f"{recipe.title} deleted.", 'danger')
     return redirect(f'/users/{g.user.id}/recipes')
+
+# @app.route('/recipes/<int:user_id>/delete_all', methods=['GET', 'POST'])
+# def delete_all(user_id):
+#     """Delete all user's recipes."""
+
+#     if not g.user:
+#         flash('Please log in first.', 'danger')
+#         return redirect("/")
+
+#     recipes = (Recipe
+#               .query
+#               .filter(Recipe.user_id == user_id)
+#               .all())
+
+#     db.session.delete(recipes)
+#     db.session.commit()
+
+#     return redirect(f'/users/{g.user.id}/recipes')
 
 
 ################################################################

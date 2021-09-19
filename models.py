@@ -95,8 +95,9 @@ class Recipe(db.Model):
         nullable=False,
         default=datetime.datetime.now
     )
-    leftovers = db.Column(db.Boolean, default=False)
     done = db.Column(db.Boolean, default=False)
+    leftovers = db.Column(db.Boolean, default=False)
+    done_on = db.Column(db.DateTime)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 

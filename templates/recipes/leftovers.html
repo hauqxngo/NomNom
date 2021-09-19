@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Leftovers?{% endblock %} 
+
+{% block content %} 
+<h1>Do you have any leftovers for {{ recipe.title }}?</h1>
+
+<form method="POST">
+  {% include "_form.html" %}
+  <button class="btn btn-success" type="submit">Save</button>
+</form>
+
+<a href="/users/{{ g.user.id }}/recipes" class="btn btn-outline-secondary mt-2">No leftovers</a>
+
+{% endblock %}

@@ -25,14 +25,27 @@
 <a href="/recipes/new" class="btn btn-success mb-4">
   <i class="far fa-plus-square"></i> Add New Recipe
 </a>
+<!-- <a href="/recipes/{{ g.user.id }}/delete_all" class="btn btn-danger mb-4">
+  <i class="fas fa-trash"></i> Delete All
+</a> -->
 
 <div id="recipe-list">
   {% for recipe in recipes %}
     <ul class="list-group list-group-flush" id="checked">
       <li class="list-group-item">
-        <!-- <i class="far fa-circle"></i> -->
+        {% if recipe.done == False %} 
+        <a href="/recipes/{{ recipe.id }}/done"><i class="far fa-circle"></i></a>
         <a href="/recipes/{{ recipe.id }}" class="recipe-title">{{ recipe.title }}</a>
-        <!-- <span class="text-muted ml-2 text-sm"><small><i>Added on {{ recipe.created_on.strftime('%B %d, %Y') }}</i></small></span> -->
+        {% elif recipe.done == True and recipe.leftovers == False %} 
+        <a href="/recipes/{{ recipe.id }}/done"><i class="fas fa-check-circle" style="color: #87cfcf;"></i></a>
+        <s>
+          <a href="/recipes/{{ recipe.id }}" class="recipe-title">{{ recipe.title }}</a>
+        </s>
+        {% else %}
+        <a href="/recipes/{{ recipe.id }}/done"><i class="fas fa-check-circle" style="color: #87cfcf;"></i></a>
+        <a href="/recipes/{{ recipe.id }}" class="recipe-title">{{ recipe.title }}</a>
+        <!-- <span class="text-muted ml-2 text-sm"><small><i>Made on {{ recipe.done_on }}</i></small></span> -->
+        {% endif %}
 
         <!-- Single icon dropdowns -->
         <div class="dropdown">
