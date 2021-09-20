@@ -4,11 +4,13 @@
 
 {% block content %} 
 <h1 class="display-1">Sign Up</h1>
-<p class="lead">Join for free!</p>
+<p class="lead">Join for free! Already have an account? 
+    <a href="/login">Login here</a>.</p>
 
-<form method='POST'>
+<form method="POST">
     {% include '_form.html' %}
-    <button class="btn btn-success" type="submit">Sign Up</button>
+    <div class="form">
+       <button class="btn btn-success" type="submit">Create An Account</button> 
+    </div>
 </form>
-
 {% endblock %}

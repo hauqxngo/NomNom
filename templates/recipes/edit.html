@@ -7,9 +7,10 @@
 
 <form method="POST">
   {% include "_form.html" %}
-  <button class="btn btn-success" type="submit">Save</button>
+  <div class="form">
+    <button class="btn btn-success" type="submit">Save</button>
+      <a href="/users/{{ g.user.id }}/recipes" 
+      class="btn btn-outline-secondary">Cancel</a>
+  </div>
 </form>
-
-<a href="/users/{{ g.user.id }}/recipes" class="btn btn-outline-secondary mt-2">Cancel</a>
-
 {% endblock %}

@@ -6,7 +6,8 @@
 <h1>What to cook next?</h1>
 <p class="lead">Get a random recipe by diets, meal types, cuisines, or intolerances.</p>
 
-<form action="/recipes">
+<div class="form">
+  <form action="/recipes" class="center-form">
     <div class="input-group my-4">
       <div class="form-outline">
         <input type="text" name="tags" id="form1" class="form-control rounded" placeholder="Examples: vegetarian, dessert, etc." size="40"/>
@@ -15,13 +16,14 @@
         <i class="fas fa-search"></i>
       </button>
     </div>
-</form>
+  </form>
+</div>
 
 {% if new_recipes %}
 <div class="card" style="width: 40rem;">
   <img class="card-img-top" src="{{ new_recipes['image'] }}" alt="{{ new_recipes['title'] }} picture">
   <div class="card-body">
-    <a href="{{ new_recipes['sourceUrl'] }}" target="_blank"><h5 class="card-title">{{ new_recipes['title'] }}</h5></a>
+    <a href="{{ new_recipes['sourceUrl'] }}" target="_blank"><h5 class="card-title center-text">{{ new_recipes['title'] }}</h5></a>
     <li class="card-text">Ready in: {{ new_recipes['readyInMinutes'] }} minutes</li>
     <li class="card-text">Servings: {{ new_recipes['servings'] }}</li>
     <a href="{{ new_recipes['sourceUrl'] }}" target="_blank" class="btn btn-primary">

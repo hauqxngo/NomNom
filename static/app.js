@@ -1,5 +1,5 @@
-const BASE_URL = 'https://api.spoonacular.com'
 
+const BASE_URL = 'https://api.spoonacular.com'
 
 // Confirmation to delete an account
 function confirmDelete() {
@@ -13,8 +13,3 @@ function confirmDelete() {
         return;
     }
 }
-
-// // Toggle done icon
-// $('#checked li').click(function() {
-//     $(this).find('i').toggleClass("far fa-circle fas fa-circle");
-// })

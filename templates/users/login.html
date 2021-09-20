@@ -4,13 +4,16 @@
 
 {% block content %} 
 <h1 class="display-1">Log In</h1>
-<p class="lead">Get access to your recipes.</p>
+<p class="lead">Get access to your to-cook list and recipes.</p>
 
-<form method='POST'>
+<form method="POST">
     {% include '_form.html' %}
-    <button class="btn btn-primary" type="submit">Log In</button>
+    <div class="form">
+       <button class="btn btn-primary" type="submit">Log In</button> 
+    </div>
 </form>
 
-<a href="/register" class="btn btn-success mt-2">Create New Account</a>
-
+<div class="form">
+   <a href="/register" class="btn btn-success mt-2">Create New Account</a> 
+</div>
 {% endblock %}

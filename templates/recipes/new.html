@@ -5,9 +5,12 @@
 {% block content %} 
 <h1>Add Your New Recipe</h1>
 
-<form method='POST'>
-    {% include '_form.html' %}
-    <button class="btn btn-primary" type="submit">Add</button>
-</form>
-
+    <form method="POST">
+        {% include '_form.html' %}
+        <div class="form">
+           <button class="btn btn-primary" type="submit">Add</button>
+           <a href="/users/{{ g.user.id }}/recipes" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+        
+    </form>
 {% endblock %}

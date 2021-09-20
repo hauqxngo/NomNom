@@ -38,6 +38,23 @@ body {
   clear: both;
 }
 
+/* Center everything */
+.form,
+.lead,
+.center-text,
+h1 {
+  text-align: center;
+}
+
+.center-form {
+  display: inline-block;
+}
+
+.card {
+  margin: 0 auto;
+  float: none;
+}
+
 /* Icon dropdowns to edit/delete a recipe in user's list */
 .dropbtn {
     background-color: #AEE1E1;
@@ -88,8 +105,3 @@ body {
     margin-left: auto;
     margin-right: auto;
   }
-
-
-
-
-
