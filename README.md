@@ -3,23 +3,22 @@
 ## Table of Contents
 - [About](#about)
 - [Features](#features)
-  - [Navigation Bar](#navigation-bar)
+  - [Navigation bar](#navigation-bar)
   - [Footer](#footer)
-  - [How to Use](#how-to-use)
+  - [How to use](#how-to-use)
 - [User Flows](#user-flows)
 - [API](#api)
 - [Technology Stack Used](#technology-stack-used)
-  - [Front End](#front-end)
-  - [Back End](#back-end)
+  - [Front-end](#front-end)
+  - [Back-end](#back-end)
   - [Database](#database)
 - [Screenshots](#screenshots)
-- [Sources](#sources)
 
 ## About
-This is my first Capstone Project at Springboard Bootcamp. This app is to help users get a quick and random recipe to cook for their next meal or plan their weekly menu in a to-cook list.
+This is my first Capstone Project at Springboard Bootcamp. A full-stack app that can help users quickly get a random recipe to cook for their next meal or plan their weekly menu in a to-cook list.
 
 ## Features
-### Navigation Bar
+### Navigation bar
 - Navigation bar is visible on the top of each pages. It is responsive and will adapt to different devices.
 - Navigation scheme:
   - On the left side is the site's logo. It can also be used to navigate to the Homepage.
@@ -38,7 +37,7 @@ This is my first Capstone Project at Springboard Bootcamp. This app is to help u
 ### Footer
 Footer is consistent on all pages. It has Copyright symbol and link to my portfolio.
 
-### How to Use:
+### How to use:
 - For non-members:
   - Get a random recipe filtered by your diets or restrictions (ex: vegan, keto, gluten-free, dairy-free, etc.).
 - For registered users:
@@ -55,13 +54,13 @@ Footer is consistent on all pages. It has Copyright symbol and link to my portfo
 [spoonacular API](https://spoonacular.com/food-api/docs)
 
 ## Technology Stack Used
-### Front End:
+### Front-end:
 - HTML
 - CSS
 - JavaScript
 - Bootstrap
 - Font Awesome
-### Back End:
+### Back-end:
 - Python
 - Flask
 - SQLAlchemy
@@ -71,3 +70,18 @@ Footer is consistent on all pages. It has Copyright symbol and link to my portfo
 - PostgreSQL
 
 ## Screenshots
+### Before logging in:
+![homepage](static/images/home.png)
+
+![about](static/images/about.png)
+
+![login](static/images/login.png)
+
+![signup](static/images/signup.png)
+
+### After logging in:
+![list](static/images/list.png)
+
+![recipes](static/images/recipes.png)
+
+![checklist](static/images/checklist.png)
