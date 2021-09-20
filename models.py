@@ -3,7 +3,8 @@
 import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-
+import os
+from dotenv import load_dotenv
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -15,9 +16,10 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
+load_dotenv()
 
-DEFAULT_USER_IMG = 'https://www.freeiconspng.com/uploads/icon-user-blue-symbol-people-person-generic--public-domain--21.png'
-DEFAULT_RECIPE_IMG = 'https://www.freeiconspng.com/uploads/free-recipe-sheet-clip-art-21.png'
+DEFAULT_USER_IMG = os.getenv('DEFAULT_USER_IMG')
+DEFAULT_RECIPE_IMG = os.getenv('DEFAULT_RECIPE_IMG')
 
 
 class User(db.Model):
@@ -31,9 +33,6 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     image_url = db.Column(db.Text, default=DEFAULT_USER_IMG)
-    # email_confirmation_sent_on = db.Column(db.DateTime)
-    # email_confirmed = db.Column(db.Boolean,default=False)
-    # email_confirmed_on = db.Column(db.DateTime)
 
     recipes = db.relationship(
         'Recipe',
@@ -96,13 +95,5 @@ class Recipe(db.Model):
         default=datetime.datetime.now
     )
     done = db.Column(db.Boolean, default=False)
-    leftovers = db.Column(db.Boolean, default=False)
-    done_on = db.Column(db.DateTime)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-
-    # @property
-    # def friendly_date(self):
-    #     """Return nicely-formatted date."""
-
-    #     return self.created_on.strftime('%Y, %m, %d')

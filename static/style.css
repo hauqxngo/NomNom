@@ -15,9 +15,11 @@
   margin-top: 1rem;
 }
 
-/* h1 {
-  text-align: center;
-} */
+#app-title {
+  font-family: 'Gluten', monospace, cursive;
+  font-size: 2.5rem;
+  color: white;
+}
 
 /* Sticky footer */
 .footer {
@@ -87,9 +89,6 @@ body {
     margin-right: auto;
   }
 
-/* .fa-circle {
-  color: #87cfcf;
-} */
 
 
 

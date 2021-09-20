@@ -1,13 +1,14 @@
-import datetime
 from flask_wtf import FlaskForm
-import datetime
-from wtforms import StringField, PasswordField, BooleanField, TextAreaField, DateField
+from wtforms import StringField, PasswordField, TextAreaField
 from wtforms.fields.html5 import EmailField, URLField
 from wtforms.validators import InputRequired, Length, Optional, URL, Email
+import os
+from dotenv import load_dotenv
 
-DEFAULT_USER_IMG = 'https://www.freeiconspng.com/uploads/icon-user-blue-symbol-people-person-generic--public-domain--21.png'
-DEFAULT_RECIPE_IMG = 'https://www.freeiconspng.com/uploads/free-recipe-sheet-clip-art-21.png'
-DEFAULT_DATE = datetime.datetime.now()
+load_dotenv()
+
+DEFAULT_USER_IMG = os.getenv('DEFAULT_USER_IMG')
+DEFAULT_RECIPE_IMG = os.getenv('DEFAULT_RECIPE_IMG')
 
 class RegisterForm(FlaskForm):
     """Form for user sign up"""
@@ -34,10 +35,3 @@ class RecipeForm(FlaskForm):
     ingredients = TextAreaField('Ingredients', validators=[Optional()])
     instructions = TextAreaField('Intructions/Notes', validators=[Optional()])
     image_url = URLField('Image URL', validators=[Optional(), URL()], default=DEFAULT_RECIPE_IMG)
-
-
-class LeftoverForm(FlaskForm):
-    """Form for editing an existing recipe"""
-
-    leftovers = BooleanField('Leftovers?')
-    done_on = DateField('I cooked this on:', default=DEFAULT_DATE)
