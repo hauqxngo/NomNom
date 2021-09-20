@@ -1,5 +1,4 @@
 .DS_Store
 venv/
-migrations
-.flaskenv
+migrations/
 .env
