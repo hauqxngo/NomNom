@@ -309,6 +309,7 @@ def add_random_recipe(user_id):
     g.user.recipes.append(random_recipe)
     db.session.commit()
 
+    flash('New recipe added.', 'success')
     return redirect(f'/users/{g.user.id}/recipes')
 
 
