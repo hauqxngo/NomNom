@@ -73,6 +73,9 @@ Footer is consistent on all pages. It has Copyright symbol and link to my portfo
 ### Before logging in:
 ![homepage](static/images/home.png)
 
+![random](static/images/random.png)
+
+
 ![about](static/images/about.png)
 
 ![login](static/images/login.png)
