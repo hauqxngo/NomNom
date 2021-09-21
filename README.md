@@ -1,5 +1,5 @@
 # NOM NOM
-Deployment URL: https://to-cook.herokuapp.com/
+Deployed URL: https://to-cook.herokuapp.com/
 
 ## Table of Contents
 - [About](#about)
@@ -13,6 +13,7 @@ Deployment URL: https://to-cook.herokuapp.com/
   - [Front-end](#front-end)
   - [Back-end](#back-end)
   - [Database](#database)
+- [Deployment](#deployment)
 - [Screenshots](#screenshots)
 
 ## About
@@ -69,6 +70,9 @@ Footer is consistent on all pages. It has Copyright symbol and link to my portfo
 - Bcrypt
 ### Database:
 - PostgreSQL
+
+## Deployment
+This application is currently live [here](https://to-cook.herokuapp.com/).
 
 ## Screenshots
 ### Before logging in:
