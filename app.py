@@ -18,11 +18,12 @@ CURR_USER_KEY = 'curr_user'
 app = Flask(__name__)
 migrate = Migrate(app, db)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///nomnom'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 'postgresql:///nomnom')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'secret_key')
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
