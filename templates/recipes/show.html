@@ -4,8 +4,15 @@
 
 {% block content %} 
 <h1>{{ recipe.title }}</h1>
+
 {% if recipe.source_url %}
- <span><a href="{{ recipe.source_url }}" target="_blank">Go to recipe</a></span>
+<div class="center-text">
+  <span>
+    <a href="{{ recipe.source_url }}" target="_blank">
+     Go to recipe
+    </a>
+  </span>
+</div>
 {% endif %}
 
 <div class="card mb-3">
