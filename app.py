@@ -23,7 +23,7 @@ URI = os.environ.get(
 if URI.startswith("postgres://"):
     URI = URI.replace("postgres://", "postgresql://", 1)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = URI    
+app.config['SQLALCHEMY_DATABASE_URI'] = URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
@@ -77,14 +77,16 @@ def register_user():
         email = form.email.data
         password = form.password.data
         image_url = form.image_url.data
-        new_user = User.register(first_name, last_name, email, password, image_url)
+        new_user = User.register(
+            first_name, last_name, email, password, image_url)
 
         db.session.add(new_user)
         try:
             db.session.commit()
 
         except IntegrityError:
-            form.email.errors.append('Account with this email already exists. Please try again.')
+            form.email.errors.append(
+                'Account with this email already exists. Please try again.')
             return render_template('users/register.html', form=form)
 
         do_login(new_user)
@@ -117,7 +119,8 @@ def login_user():
             return redirect(f'/users/{user.id}/recipes')
 
         else:
-            form.email.errors = ['Incorrect email or password. Please try again.']
+            form.email.errors = [
+                'Incorrect email or password. Please try again.']
 
     return render_template('users/login.html', form=form)
 
@@ -207,9 +210,10 @@ def delete_user():
 def search_recipes():
     """Search recipes by ingredients."""
     try:
-        tags = request.args['tags']
+        tags = (request.args['tags']).lower()
 
-        res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_KEY}&tags={tags}&number=1')
+        res = requests.get(
+            f'{API_BASE_URL}/recipes/random?apiKey={API_KEY}&tags={tags}&number=1')
 
         data = res.json()
         entry = data['recipes'][0]
@@ -222,11 +226,11 @@ def search_recipes():
 
         new_recipes = {
             'title': title,
-            'image': image, 
+            'image': image,
             'readyInMinutes': readyInMinutes,
             'servings': servings,
             'sourceUrl': sourceUrl
-            }
+        }
         return render_template('index.html', new_recipes=new_recipes)
     except IndexError:
         return render_template('404.html')
@@ -255,7 +259,7 @@ def add_recipe():
         instructions=instructions,
         image_url=image_url,
         user_id=g.user.id
-        )
+    )
 
     if form.validate_on_submit():
         db.session.add(new_recipe)
@@ -264,7 +268,8 @@ def add_recipe():
         flash('New recipe added.', 'success')
         return redirect(f'/users/{g.user.id}/recipes')
 
-    return render_template('recipes/new.html', form=form, new_recipe=new_recipe)
+    return render_template('recipes/new.html', form=form,
+                           new_recipe=new_recipe)
 
 
 @app.route('/users/<int:user_id>/recipes', methods=['GET', 'POST'])
@@ -277,10 +282,10 @@ def list_recipes(user_id):
 
     user = User.query.get_or_404(user_id)
     recipes = (Recipe
-              .query
-              .filter(Recipe.user_id == user_id)
-              .order_by(Recipe.created_on.desc())
-              .all())
+               .query
+               .filter(Recipe.user_id == user_id)
+               .order_by(Recipe.created_on.desc())
+               .all())
 
     return render_template('recipes/list.html', user=user, recipes=recipes)
 
@@ -293,29 +298,34 @@ def add_random_recipe(user_id):
         flash('Please log in first.', 'danger')
         return redirect('/')
 
-    tags = request.args['tags']
-    res = requests.get(f'{API_BASE_URL}/recipes/random?apiKey={API_KEY}&number=1&tags={tags}')
+    try:
+        tags = (request.args['tags']).lower()
+        res = requests.get(
+            f'{API_BASE_URL}/recipes/random?apiKey={API_KEY}&number=1&tags={tags}')
 
-    data = res.json()
-    entry = data['recipes'][0]
+        data = res.json()
+        entry = data['recipes'][0]
 
-    title = entry['title']
-    source_url = entry['sourceUrl']
-    image_url = entry['image']
+        title = entry['title']
+        source_url = entry['sourceUrl']
+        image_url = entry['image']
 
-    random_recipe = Recipe(
-        title=title,
-        source_url=source_url,
-        image_url=image_url,
-        user_id=g.user.id
+        random_recipe = Recipe(
+            title=title,
+            source_url=source_url,
+            image_url=image_url,
+            user_id=g.user.id
         )
 
-    db.session.add(random_recipe)
-    g.user.recipes.append(random_recipe)
-    db.session.commit()
+        db.session.add(random_recipe)
+        g.user.recipes.append(random_recipe)
+        db.session.commit()
 
-    flash('New recipe added.', 'success')
-    return redirect(f'/users/{g.user.id}/recipes')
+        flash('New recipe added.', 'success')
+        return redirect(f'/users/{g.user.id}/recipes')
+
+    except IndexError:
+        return render_template('404.html')
 
 
 @app.route('/recipes/<int:recipe_id>')

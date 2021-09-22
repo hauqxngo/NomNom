@@ -1,14 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block body_class %}error-404{%endblock %} {% block
+content %}
 
-{% block body_class %}error-404{%endblock %}
-
-{% block content %}
-
-  <div class="message-404">
-    <h4 class="display-4 center-text">Sorry, this page doesn't exist :( {{ request.status }}</h4>
-    <img id="err-img" src="https://cdn.pixabay.com/photo/2016/02/19/11/53/pug-1210025_960_720.jpg" alt="sad pug dog in blanket">
-    <br>
-    <a href="/">Back to Homepage</a>
-  </div>
+<div class="message-404">
+  <h4 class="display-4 center-text">
+    Sorry, cannot find what you're looking for :( {{ request.status }}
+  </h4>
+  <img
+    id="err-img"
+    src="https://cdn.pixabay.com/photo/2016/02/19/11/53/pug-1210025_960_720.jpg"
+    alt="sad pug dog in blanket"
+  />
+  <br />
+  <a href="/">Back to Homepage</a>
+</div>
 
 {% endblock %}

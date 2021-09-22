@@ -1,16 +1,22 @@
-{% extends 'base.html' %}
-
-{% block title %}My Recipes{% endblock %} 
-
-{% block content %} 
+{% extends 'base.html' %} {% block title %}My Recipes{% endblock %} {% block
+content %}
 
 <h1>To-cook List</h1>
-<p class="lead">Start planning your next meals by adding new recipes to your list.</p>
+<p class="lead">
+  Start planning your next meals by adding new recipes to your list.
+</p>
 
 <form action="/users/{{ g.user.id }}/recipes/random" class="center-form">
   <div class="input-group my-4">
     <div class="form-outline">
-      <input type="text" name="tags" id="form1" class="form-control rounded" placeholder="Examples: vegetarian, dessert, etc." size="40"/>
+      <input
+        type="text"
+        name="tags"
+        id="form1"
+        class="form-control rounded"
+        placeholder="Examples: vegetarian, dessert, etc."
+        size="40"
+      />
     </div>
     <button class="btn btn-primary">
       <i class="fas fa-random"></i> Add Random Recipe
@@ -24,30 +30,36 @@
 
 <div id="recipe-list">
   {% for recipe in recipes %}
-    <ul class="list-group list-group-flush" id="checked">
-      <li class="list-group-item">
-        {% if recipe.done == False %} 
-        <a href="/recipes/{{ recipe.id }}/done"><i class="far fa-circle"></i></a>
-        <a href="/recipes/{{ recipe.id }}" class="recipe-title">{{ recipe.title }}</a>
-        {% else %} 
-        <a href="/recipes/{{ recipe.id }}/done"><i class="fas fa-check-circle" style="color: #87cfcf;"></i></a>
-        <s>
-          <a href="/recipes/{{ recipe.id }}" class="recipe-title">{{ recipe.title }}</a>
-        </s>
-        {% endif %}
+  <ul class="list-group list-group-flush" id="checked">
+    <li class="list-group-item">
+      {% if recipe.done == False %}
+      <a href="/recipes/{{ recipe.id }}/done"><i class="far fa-circle"></i></a>
+      <a href="/recipes/{{ recipe.id }}" class="recipe-title"
+        >{{ recipe.title }}</a
+      >
+      {% else %}
+      <a href="/recipes/{{ recipe.id }}/done"
+        ><i class="fas fa-check-circle" style="color: #87cfcf"></i
+      ></a>
+      <s>
+        <a href="/recipes/{{ recipe.id }}" class="recipe-title"
+          >{{ recipe.title }}</a
+        >
+      </s>
+      {% endif %}
 
-        <!-- Single icon dropdowns -->
-        <div class="dropdown">
-          <button class="dropbtn">
-            <i class="fas fa-ellipsis-h"></i>
-          </button>
-          <div class="dropdown-content">
-            <a href="/recipes/{{ recipe.id }}/edit">Edit</a>
-            <a href="/recipes/{{ recipe.id }}/delete" method="POST">Delete</a>
-          </div>
+      <!-- Single icon dropdowns -->
+      <div class="dropdown">
+        <button class="dropbtn">
+          <i class="fas fa-ellipsis-h"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="/recipes/{{ recipe.id }}/edit">Edit</a>
+          <a href="/recipes/{{ recipe.id }}/delete" method="POST">Delete</a>
         </div>
-      </li>
-    </ul>
+      </div>
+    </li>
+  </ul>
   {% endfor %}
 </div>
 {% endblock %}
