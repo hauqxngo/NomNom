@@ -45,7 +45,7 @@ Footer is consistent on all pages. It has Copyright symbol and link to my portfo
 - For registered users:
   - Add a random recipe to your to-cook list ✓
   - Add your own recipe ✓
-  - Add a recipe link you stumbled accross somewhere (ex: videos from YouTube, Instagram, Tiktok, etc) ✓
+  - Add a recipe link you stumbled across somewhere (ex: videos from YouTube, Instagram, Tiktok, etc) ✓
   - Check your recipe off the list after you made one ✓
 
 ## User Flows
