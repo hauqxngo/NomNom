@@ -36,12 +36,11 @@ class UserViewTestCase(TestCase):
         self.testuser = User.register(first_name='Test',
                                       last_name='User',
                                       email='test@test.com',
-                                      pwd='testuser',
-                                      image_url=None)
+                                      pwd='testuser')
         self.testuser_id = 1111
         self.testuser.id = self.testuser_id
 
-        self.u1 = User.register('Test1', 'User1', 'test1@test.com', 'password', None)
+        self.u1 = User.register('Test1', 'User1', 'test1@test.com', 'password')
         self.u1_id = 111
         self.u1.id = self.u1_id
 

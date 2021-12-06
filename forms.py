@@ -17,8 +17,7 @@ class RegisterForm(FlaskForm):
     last_name = StringField('Last Name', validators=[InputRequired()])
     email = EmailField('Email', validators=[InputRequired(), Email()])
     password = PasswordField('New Password', validators=[InputRequired(), Length(min=6)])
-    image_url = URLField('Profile Picture URL (Optional)', validators=[Optional(), URL()], default=DEFAULT_USER_IMG)
-
+    
 
 class LoginForm(FlaskForm):
     """Form for user login"""

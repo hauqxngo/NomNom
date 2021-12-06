@@ -26,7 +26,7 @@ class RecipeModelTestCase(TestCase):
         db.create_all()
 
         self.uid = 1111
-        u = User.register('Test', 'User', 'testing@test.com', 'password', None)
+        u = User.register('Test', 'User', 'testing@test.com', 'password')
         u.id = self.uid
 
         db.session.add(u)

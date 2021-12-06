@@ -76,9 +76,8 @@ def register_user():
         last_name = form.last_name.data
         email = form.email.data
         password = form.password.data
-        image_url = form.image_url.data
         new_user = User.register(
-            first_name, last_name, email, password, image_url)
+            first_name, last_name, email, password)
 
         db.session.add(new_user)
         try:

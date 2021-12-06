@@ -46,7 +46,7 @@ class User(db.Model):
         return f'{self.first_name} {self.last_name}'
 
     @classmethod
-    def register(cls, first_name, last_name, email, pwd, image_url):
+    def register(cls, first_name, last_name, email, pwd):
         """Register user with hashed password & return user."""
 
         hashed = bcrypt.generate_password_hash(pwd)
@@ -59,7 +59,6 @@ class User(db.Model):
             last_name=last_name,
             email=email,
             password=hashed_utf8,
-            image_url=image_url
             )
 
     @classmethod

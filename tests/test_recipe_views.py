@@ -36,8 +36,7 @@ class RecipeViewTestCase(TestCase):
         self.testuser = User.register(first_name='Test',
                                       last_name='User',
                                       email='test@test.com',
-                                      pwd='testuser',
-                                      image_url=None)
+                                      pwd='testuser')
                 
         self.testuser_id = 9999
         self.testuser.id = self.testuser_id
@@ -145,8 +144,7 @@ class RecipeViewTestCase(TestCase):
         u = User.register(first_name="unauthorized",
                         last_name='hacker',
                         email='testtest@test.com',
-                        pwd='password',
-                        image_url=None)
+                        pwd='password')
         u.id = 3345
 
         # Recipe is owned by testuser

@@ -26,11 +26,11 @@ class UserModelTestCase(TestCase):
         db.drop_all()
         db.create_all()
 
-        u1 = User.register('John', 'Doe', 'email1@email.com', 'password', None)
+        u1 = User.register('John', 'Doe', 'email1@email.com', 'password')
         uid1 = 1111
         u1.id = uid1
 
-        u2 = User.register('Jane', 'Doe', 'email2@email.com', 'password', None)
+        u2 = User.register('Jane', 'Doe', 'email2@email.com', 'password')
         uid2 = 2222
         u2.id = uid2
 
@@ -72,7 +72,7 @@ class UserModelTestCase(TestCase):
     # Signup Tests
 
     def test_valid_register(self):
-        u_test = User.register('Test', 'User', 'testtest@test.com', 'password', None)
+        u_test = User.register('Test', 'User', 'testtest@test.com', 'password')
         uid = 3333
         u_test.id = uid
         db.session.add(u_test)
@@ -88,7 +88,7 @@ class UserModelTestCase(TestCase):
         self.assertTrue(u_test.password.startswith("$2b$"))
 
     def test_invalid_fname_register(self):
-        invalid = User.register(None, 'Smith', 'test@test.com', 'password', None)
+        invalid = User.register(None, 'Smith', 'test@test.com', 'password')
         uid = 4444
         invalid.id = uid
         db.session.add(invalid)
@@ -96,7 +96,7 @@ class UserModelTestCase(TestCase):
             db.session.commit()
 
     def test_invalid_lname_register(self):
-        invalid = User.register('Sam', None, 'test@test.com', 'password', None)
+        invalid = User.register('Sam', None, 'test@test.com', 'password')
         uid = 5555
         invalid.id = uid
         db.session.add(invalid)
@@ -104,7 +104,7 @@ class UserModelTestCase(TestCase):
             db.session.commit()
 
     def test_invalid_email_register(self):
-        invalid = User.register('No', 'One', None, 'password', None)
+        invalid = User.register('No', 'One', None, 'password')
         uid = 6666
         invalid.id = uid
         db.session.add(invalid)
@@ -113,10 +113,10 @@ class UserModelTestCase(TestCase):
 
     def test_invalid_password_register(self):
         with self.assertRaises(ValueError) as context:
-            User.register('No', 'One', 'email@email.com', '', None)
+            User.register('No', 'One', 'email@email.com', '')
 
         with self.assertRaises(ValueError) as context:
-            User.register('No', 'One', 'email@email.com', None, None)
+            User.register('No', 'One', 'email@email.com', None)
 
     ####
     # Authentication Tests
