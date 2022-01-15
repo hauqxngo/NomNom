@@ -1,16 +1,14 @@
-{% extends 'base.html' %}
-
-{% block title %}Sign Up{% endblock %} 
-
-{% block content %} 
+{% extends 'base.html' %} {% block title %}Sign Up{% endblock %} {% block
+content %}
 <h1 class="display-1">Sign Up</h1>
-<p class="lead">Join for free! Already have an account? 
-    <a href="/login">Login here</a>.</p>
+<p class="lead">
+  Join for free! Already have an account? Log in <a href="/login">here</a>.
+</p>
 
 <form method="POST">
-    {% include '_form.html' %}
-    <div class="form">
-       <button class="btn btn-success" type="submit">Create An Account</button> 
-    </div>
+  {% include '_form.html' %}
+  <div class="form">
+    <button class="btn btn-success" type="submit">Create An Account</button>
+  </div>
 </form>
 {% endblock %}
