@@ -1,5 +1,6 @@
 # NOM NOM
-Deployed URL: https://to-cook.herokuapp.com/
+- Deployed URL: https://to-cook.herokuapp.com/
+- Don't have time to sign up? Please use email "test@test.com" and password "password" to see the registered users' features.
 
 ## Table of Contents
 - [About](#about)
